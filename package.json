@@ -9,7 +9,7 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
-    "ipfs-api": "^17.2.4",
+    "ipfs-http-client": "^32.0.1",
     "nodemon": "^1.13.3",
     "raygun": "^0.9.1"
   }
