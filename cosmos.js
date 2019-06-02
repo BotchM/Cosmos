@@ -1,146 +1,146 @@
-var ipfsAPI = require('ipfs-api')
-var ipfs = ipfsAPI()
+var ipfsClient = require('ipfs-http-client')
+var ipfs = ipfsClient();
 var fs = require('fs');
+const blue = require('./blue');
+const Poller = require('./poller');
+const ip = require('public-ip');
 
+/**
+ * Description:
+ * This class handles all the ipfs methods required to store data
+ * in any format(coming soon)
+ * 
+ * This feature is not enabled or utlized atm, will be once 
+ * replication of data is stable
+ * func initialize: initialize the node and connect it with all the other nodes
+ * func pinit: pin a specific hash or all hashes from all the pins
+ * func showPins: show all the hashes currently pinned
+ * func removePin: remove a specific hash from the pinset
+ * func addFile: add a file from the filesystem into ipfs
+ * func addHash:
+ * func setIpns:
+ * func addHash:
+ * func getIpns:
+ * func rmPins:
+ * func swarmConnect:
+ */
 
 var cosmos = {
-  pinit: async () => {
-    var pins = fs.readFileSync('pins.txt', "UTF8").split('\n')
-    console.log(pins);
+  initialize: async () => {
+    let poller = new Poller(1000); 
+    id = await ipfs.id()
+    ipv4 = await ip.v4()
+    console.log(ipv4)
 
-    for (var i = 0; i < pins.length -1; i++) {
-      pins = await ipfs.pin.add(pins[i])
+    for (var i = id.addresses.length; i-- > 0; ) {
+      if(id.addresses[i].includes(`/ip4/${ipv4}`)){
+        await blue.write(ipv4, id.addresses[i])
+      }
+    }
+
+    for(let key of keys = await blue.getKeys()){
+      if(key !== ipv4){ 
+        value = await blue.read(key)
+        await cosmos.swarmConnect(value, key)
+      }
+    }
+
+    let k = (await blue.getKeys()).length
+
+    /**
+     * Delegate one node randomly to restart
+     */
+    poller.onPoll(async () => {
+      let keys = (await blue.getKeys()).length
+
+      // check all nodes connect if not delete the one that isnt connecting
+      if(keys > k){
+        k = keys;
+        console.log('New node joined!')
+      }else{
+        console.log('Total nodes: ', keys)
+        // check all connections and delete diconnected nodes
+      }
+      poller.poll(); 
+    });
+
+    poller.poll();
+  },
+  pinit: async (hash) => {
+    if(hash){
+      await ipfs.pin.add(hash)
+      return
+    }
+    pinset = await cosmos.showPins()
+    for(let hash of pinset){
+      await ipfs.pin.add(hash)
     }
   },
   showPins: async () => {
     pinset = await ipfs.pin.ls()
-    console.log(pinset);
+    var hashes = []
+    for (let pin of pinset) {
+      if(pin.type === 'recursive' ){
+        await cosmos.pinit(pin.hash)
+        hashes.push(pin.hash)
+      }
+    }
+    return hashes
   },
   removePin: async (pin) => {
     await ipfs.pin.rm(pin)
   },
   addFile: async (path) => {
-    hash = await ipfs.util.addFromFs(path, { recursive: true})
+    hash = await ipfs.addFromFs(path, { recursive: true })
     console.log('Orig hash is: ' + hash[0].hash)
-    //Call pin
-    cosmos.addHash(hash[0].hash)
+    return await cosmos.addHash(hash[0].hash)
   },
   addHash: async (hash) => {
-    const res = await ipfs.files.add(new Buffer(hash))
-    console.log('String hash is: ', res[0].hash)
-    //Call pin
-    //Store under user
-    cosmos.getHash(res[0].hash)
+    await cosmos.pinit(hash)
+    // ipns might return empty
+    var res = await cosmos.getIpns()
+    res = await cosmos.getHash(res)
+    console.log(res)
+    if(res || true){
+      res += `\n/ipfs/${ipfsClient.Buffer.from(hash)}`
+      body = await ipfs.add(ipfsClient.Buffer.from(res))
+      console.log(body)
+      await cosmos.setIpns(body[0].hash)
+      console.log('added')
+    }
+    console.log('done')
   },
   getHash: async (hash) => {
-    path = await ipfs.files.get(hash)
-    console.log('Stored hash/s: ' + path[0].content.toString('UTF8'));
+    path = await ipfs.get(hash)
+    return path[0].content.toString('UTF8')
+  },
+  setIpns: async (hash) => {
+    res = await ipfs.name.publish(hash)
+    console.log(res)
+  },
+  getIpns: async () => {
+    const addr = '/ipns/QmP98mu6uzBN3k5PN5LmVy7G6z71s14NCELxRprZUsW1ZQ'
+    return await ipfs.name.resolve(addr)
+  },
+  rmPins: async () => {
+    body = await ipfs.add(ipfsClient.Buffer.from(''))
+    await cosmos.setIpns(body[0].hash)
+    pinset = await cosmos.showPins()
+    for(let hash of pinset){
+      await ipfs.pin.rm(hash)
+    }
+  },
+  swarmConnect: async(addr, key) => {
+    try {
+      await ipfs.swarm.connect(addr).then(obj => console.log(key, obj.Strings))
+    } catch (e) {
+      if (e.statusCode === 500 && (await blue.getKeys()).length > 2) {
+        blue.deleteField(key)
+        console.log(`${key} deleted`)
+      }
+      console.log(e.statusCode)
+    }
   }
 }
 
 module.exports = cosmos;
-
-// module.exports.pinit = async () => {
-//   var pins = fs.readFileSync('pins.txt', "UTF8").split('\n')
-//   console.log(pins);
-//
-//   for (var i = 0; i < pins.length -1; i++) {
-//     pins = await ipfs.pin.add(pins[i])
-//   }
-// }
-//
-// module.exports.showPins = async () => {
-//   pinset = await ipfs.pin.ls()
-//   console.log(pinset);
-// }
-//
-// module.exports.removePin = async (pin) => {
-//   await ipfs.pin.rm(pin)
-// }
-//
-// module.exports.addFile = async (path) => {
-//   hash = await ipfs.util.addFromFs(path, { recursive: true})
-//   console.log(hash[0].hash)
-//   self.addHash(hash)
-// }
-//
-// module.exports.addHash = async (hash) => {
-//   const res = await ipfs.files.add(new Buffer(hash))
-//   console.log('my hash is: ', typeof(res[0].hash))
-// }
-//
-// module.exports.getHash = async (hash) => {
-//   path = await ipfs.files.get(hash)
-//   console.log(path);
-// }
-
-// using promises
-
-// id = await ipfs.id()
-// console.log('my id is: ', id.id)
-//
-// const res = await ipfs.files.add(new Buffer(path))
-// console.log('my hash is: ', res[0].hash)
-
-//1. Add files from file system or path to IPFS
-// ipfs.util.addFromFs(path, option, callback)
-// For example,
-// ipfs.util.addFromFs('path/.../.../folder', { recursive: true , ignore: ['subfolder/to/ignore/**']}, (err, result) => {
-// if (err) {
-// throw err
-// }
-// console.log(result)
-// })
-// //2. Add a file from Folder to IPFS
-// ipfs.util.addFromFs(path, option, callback)
-// For example,
-// ipfs.util.addFromFs('path/to/a/folder', { recursive: true , ignore: ['subfolder/to/ignore/**']}, (err, result) => {
-// if (err) {
-// throw err
-// }
-// console.log(result)
-//
-// const hash = await ipfs.cat(res[0].hash)
-// console.log('my data is: ', hash.toString('UTF8')); //buffer toString
-//
-//
-// pins = await ipfs.pin.add(res[0].hash)
-// console.log(pins)
-
-
-// ipfs.id()
-// .then((id) => {
-//   console.log('my id is: ', id.id)
-// })
-// .catch((err) => {
-//   console.log('Fail: ', err)
-// })
-
-// ipfs.files.add(new Buffer(path))
-// .then((res) => {
-//   console.log('my hash is: ', res[0].hash)
-//   return res[0].hash
-// })
-// .then((hash) => {
-//   console.log('my hash is: ', hash)
-// })
-// .catch((err) => {
-//   console.log('Fail: ', err)
-// })
-
-// normal way
-
-// ipfs.files.add(new Buffer(path), function (err, res) {
-//   if(err) console.error("ipfs add error", err, res);
-//   res.forEach(function(file) {
-//     console.log('successfully stored', file.path);
-//     display(file.path);
-//   });
-// })
-//
-// function display(hash) {
-//   ipfs.cat(hash, function(err, res) {
-//     if(err) console.error("ipfs cat error", err, res);
-//     console.log(res, hash);
-//   })
-// }
