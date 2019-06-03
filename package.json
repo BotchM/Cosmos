@@ -9,8 +9,10 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
+    "bluzelle": "^0.5.522",
     "ipfs-http-client": "^32.0.1",
     "nodemon": "^1.13.3",
-    "raygun": "^0.9.1"
+    "raygun": "^0.9.1",
+    "uuid": "^3.3.2"
   }
 }
