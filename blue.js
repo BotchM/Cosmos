@@ -7,6 +7,16 @@ MHQCAQEEIFRwVj7ZrqnSNNJeMsz4qAKDIZyBgKH3fUhkdjQzpb+1oAcGBSuBBAAK
 oUQDQgAEDgftWwbXDSj3IgPYh4p1S/NQSUhVmBjnkejAOxKgxB30UyDIC5uzCOfr
 qCdilzBWtO0sS7unKggtitftXhEijA==
 -----END EC PRIVATE KEY-----
+
+45.63.14.97
+1Wf@WQJ?Jy(qPGNq
+ssh -L 5001:localhost:5001 root@45.63.14.97
+ssh -L 5001:45.63.14.97:5001 root@45.63.14.97 -N -v -v
+ssh -f root@45.63.14.97 -L 5001:[::1]:5001 -N
+
+#proxy
+ssh -L [localport]:[remotehost]:[remoteport] [username]@[server] 
+ssh -L 5001:45
 */
 
 const api = bluzelle({
@@ -24,6 +34,7 @@ const main = async () => {
       await initialize()
       await getKeys()
 
+      await stats()
       api.close();
     } catch (e) {
         console.log('something wrong')
