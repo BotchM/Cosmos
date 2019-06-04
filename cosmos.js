@@ -34,14 +34,18 @@ var cosmos = {
   },
   addHash: async (hash) => {
     await cosmos.pinit(hash)
-
+    // ipns might return empty
     var res = await cosmos.getIpns()
     res = await cosmos.getHash(res)
-    if(res && !res.includes(hash)){
+    console.log(res)
+    if(res || true){
       res += `\n/ipfs/${ipfsClient.Buffer.from(hash)}`
       body = await ipfs.add(ipfsClient.Buffer.from(res))
+      console.log(body)
       await cosmos.setIpns(body[0].hash)
+      console.log('added')
     }
+    console.log('done')
   },
   getHash: async (hash) => {
     path = await ipfs.get(hash)
