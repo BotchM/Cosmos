@@ -1,28 +1,23 @@
-#Cosmos
+# Cosmos
 
 I am writing a script `install` that will automate this process but not ready yet
 
-
-##Requirements
-
+## Requirements
 * Go
 * Node 12
+  
+## Installation
 
-##Installation
-
-###Windows
-
+### Windows
 * https://nodejs.org/en/download/
 * https://dist.ipfs.io/#go-ipfs
 * Head to the download website
 * Click the latest version and download the .msi file
 * Windows sucks so follow this [Ipfs windows tutorial](https://flyingzumwalt.gitbooks.io/decentralized-web-primer/content/install-ipfs/lessons/download-and-install.html) is you get stuck
 
+### Linux
 
-###Linux
-
-#####IPFS and Golang
-
+##### IPFS and Golang
 ```
 sudo apt-get update
 sudo apt-get install golang-go -y
@@ -30,18 +25,17 @@ wget https://dist.ipfs.io/go-ipfs/v0.4.21/go-ipfs_v0.4.21_linux-386.tar.gz
 tar xvfz go-ipfs_v0.4.10_linux-386.tar.gz
 sudo mv go-ipfs/ipfs /usr/local/bin/ipfs
 ```
-
-#####Node
-
+  
+##### Node
 ```
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
 
-##Setup
+## Setup
 * Once you have the Requirements
 * Go to a terminal and and execute the following
-
+  
 ```
 ipfs init
 ipfs daemon
@@ -50,13 +44,11 @@ ipfs daemon
 git clone git@github.com:BotchM/Cosmos.git
 cd Cosmos
 
-npm install 
-or 
+npm install
+or
 yarn install
 
 npn start
 or
 yarn start
-
 ```
-
