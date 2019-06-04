@@ -2,12 +2,6 @@ const { bluzelle } = require('bluzelle');
 const uuidv4       = require('uuid/v4')();
 
 /*
------BEGIN EC PRIVATE KEY-----
-MHQCAQEEIFRwVj7ZrqnSNNJeMsz4qAKDIZyBgKH3fUhkdjQzpb+1oAcGBSuBBAAK
-oUQDQgAEDgftWwbXDSj3IgPYh4p1S/NQSUhVmBjnkejAOxKgxB30UyDIC5uzCOfr
-qCdilzBWtO0sS7unKggtitftXhEijA==
------END EC PRIVATE KEY-----
-
 45.63.14.97
 1Wf@WQJ?Jy(qPGNq
 ssh -L 5001:localhost:5001 root@45.63.14.97
@@ -19,14 +13,23 @@ ssh -L [localport]:[remotehost]:[remoteport] [username]@[server]
 ssh -L 5001:45
 */
 
+/**
+ * Description:
+ * This is the main interface into the bluzelle 
+ * decentralized kV
+ * 
+ * func initialize: only used by the parent node (me)
+ * func read: given a key return the value from bluzelle
+ * func write: give a key, value pair write to bluzelle
+ * func stats: get stats about your node
+ * func getKeys: get all the keys stored in the bluzelle db
+ * func setWriters: set a writer to the db (not implemented, but should be)
+ * func get Writers: gets all the writer authorized to access the current db
+ */
 
 const api = bluzelle({
     entry: 'ws://testnet.bluzelle.com:51010',
-
-    // This UUID identifies your database and may be changed.
     uuid: '9c39d81b-128d-4230-b235-6805d36f5f03',
-
-    // This is the private key used for signing off database operations
     private_pem: 'MHQCAQEEIFRwVj7ZrqnSNNJeMsz4qAKDIZyBgKH3fUhkdjQzpb+1oAcGBSuBBAAKoUQDQgAEDgftWwbXDSj3IgPYh4p1S/NQSUhVmBjnkejAOxKgxB30UyDIC5uzCOfrqCdilzBWtO0sS7unKggtitftXhEijA=='
 });
 

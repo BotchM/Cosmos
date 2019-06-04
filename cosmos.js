@@ -4,6 +4,27 @@ var fs = require('fs');
 const blue = require('./blue');
 var http = require('http');
 
+/**
+ * Description:
+ * This class handles all the ipfs methods required to store data
+ * in any format(coming soon)
+ * 
+ * This feature is not enabled or utlized atm, will be once 
+ * replication of data is stable
+ * func initialize: initialize the node and connect it with all the other nodes
+ * func pinit: pin a specific hash or all hashes from all the pins
+ * func showPins: show all the hashes currently pinned
+ * func removePin: remove a specific hash from the pinset
+ * func addFile: add a file from the filesystem into ipfs
+ * func addHash:
+ * func setIpns:
+ * func addHash:
+ * func getIpns:
+ * func rmPins:
+ * func swarmConnect:
+ */
+
+
 var cosmos = {
   initialize: async () => {
     http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, (resp) => {
