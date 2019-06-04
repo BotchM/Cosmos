@@ -13,7 +13,13 @@ var cosmos = {
           if(id.addresses[i].includes(`/ip4/${ip}`)){
             console.log(id.addresses[i])
             await blue.write(ip.toString(), id.addresses[i])
-            await blue.getKeys()
+          }
+        }
+
+        for(let key of keys = await blue.getKeys()){
+          if(key !== ip.toString()){
+            value = await blue.read(key)
+            await cosmos.swarmConnect(value)
           }
         }
       });
@@ -83,6 +89,9 @@ var cosmos = {
       await ipfs.pin.rm(hash)
     }
   },
+  swarmConnect: async(addr) => {
+    console.log(await ipfs.swarm.connect(addr))
+  }
 }
 
 module.exports = cosmos;

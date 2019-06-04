@@ -72,7 +72,8 @@ var blue = {
       console.log(JSON.stringify(stats, null, 4));
   },
   getKeys: async() => {
-    console.log(await api.keys())
+    //console.log(await api.keys())
+    return await api.keys()
   },
   setWriters: async() => {
     await api.addWriters('MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE4V08tYSrs5O10YhGmNVpxCofn8q5liNDfj1I3IOkByrb0SHMNMr5FgBhsWYLI+ncRP6AAs1aH7E9PFPygjeOvw==');
