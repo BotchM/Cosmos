@@ -83,6 +83,9 @@ var blue = {
   },
   getWriters: async() => {
     console.log(await api.getWriters())
+  },
+  deleteField: async(key) => {
+    await api.delete(key);
   }
 }
 
