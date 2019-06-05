@@ -2,7 +2,7 @@ var ipfsClient = require('ipfs-http-client')
 var ipfs = ipfsClient();
 var fs = require('fs');
 const blue = require('./blue');
-var http = require('http');
+const ip = require('public-ip');
 
 /**
  * Description:
@@ -27,24 +27,21 @@ var http = require('http');
 
 var cosmos = {
   initialize: async () => {
-    http.get({'host': 'api.ipify.org', 'port': 80, 'path': '/'}, (resp) => {
-      resp.on('data', async (ip) => {
-        id = await ipfs.id()
-        for (var i = id.addresses.length; i-- > 0; ) {
-          if(id.addresses[i].includes(`/ip4/${ip}`)){
-            console.log(id.addresses[i])
-            await blue.write(ip.toString(), id.addresses[i])
-          }
-        }
+    id = await ipfs.id()
 
-        for(let key of keys = await blue.getKeys()){
-          if(key !== ip.toString()){
-            value = await blue.read(key)
-            await cosmos.swarmConnect(value)
-          }
-        }
-      });
-    });
+    for (var i = id.addresses.length; i-- > 0; ) {
+      if(id.addresses[i].includes(`/ip4/`)){
+        console.log(id.addresses[i])
+        await blue.write(ip.toString(), id.addresses[i])
+      }
+    }
+
+    for(let key of keys = await blue.getKeys()){
+      if(key !== ip.toString()){ 
+        value = await blue.read(key)
+        await cosmos.swarmConnect(value)
+      }
+    }
   },
   pinit: async (hash) => {
     if(hash){
