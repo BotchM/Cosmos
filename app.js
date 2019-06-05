@@ -1,7 +1,5 @@
 var cosmos = require('./cosmos');
 
-//cosmic.pinit()
-
 (async () => {
 
   console.log('>>> initializing the node')

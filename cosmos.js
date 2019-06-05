@@ -28,9 +28,11 @@ const ip = require('public-ip');
 var cosmos = {
   initialize: async () => {
     id = await ipfs.id()
+    ipv4 = await ip.v4()
+    console.log(ipv4)
 
     for (var i = id.addresses.length; i-- > 0; ) {
-      if(id.addresses[i].includes(`/ip4/`)){
+      if(id.addresses[i].includes(`/ip4/${ipv4}`)){
         console.log(id.addresses[i])
         await blue.write(ip.toString(), id.addresses[i])
       }
