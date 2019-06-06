@@ -109,7 +109,11 @@ var cosmos = {
     }
   },
   swarmConnect: async(addr) => {
-    console.log(await ipfs.swarm.connect(addr).then(obj => obj.Strings))
+    try {
+      await ipfs.swarm.connect(addr)
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 }
 
