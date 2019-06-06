@@ -34,15 +34,12 @@ var cosmos = {
     for (var i = id.addresses.length; i-- > 0; ) {
       if(id.addresses[i].includes(`/ip4/${ipv4}`)){
         await blue.write(ipv4, id.addresses[i])
-        console.log(ipv4, id.addresses[i])
       }
     }
 
     for(let key of keys = await blue.getKeys()){
-      console.log(key)
       if(key !== ipv4){ 
         value = await blue.read(key)
-        console.log(value)
         await cosmos.swarmConnect(value)
       }
     }
@@ -112,7 +109,7 @@ var cosmos = {
     }
   },
   swarmConnect: async(addr) => {
-    console.log(await ipfs.swarm.connect(addr))
+    console.log(await ipfs.swarm.connect(addr).then(obj => obj.Strings))
   }
 }
 
