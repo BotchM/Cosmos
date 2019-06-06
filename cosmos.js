@@ -33,14 +33,16 @@ var cosmos = {
 
     for (var i = id.addresses.length; i-- > 0; ) {
       if(id.addresses[i].includes(`/ip4/${ipv4}`)){
-        console.log(id.addresses[i])
-        await blue.write(ip.toString(), id.addresses[i])
+        await blue.write(ipv4, id.addresses[i])
+        console.log(ipv4, id.addresses[i])
       }
     }
 
     for(let key of keys = await blue.getKeys()){
-      if(key !== ip.toString()){ 
+      console.log(key)
+      if(key !== ipv4){ 
         value = await blue.read(key)
+        console.log(value)
         await cosmos.swarmConnect(value)
       }
     }

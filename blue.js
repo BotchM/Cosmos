@@ -29,7 +29,7 @@ ssh -L 5001:45
 
 const api = bluzelle({
     entry: 'ws://testnet.bluzelle.com:51010',
-    uuid: '1abbce26-eac9-4d8c-9f07-12f99c208f1a',
+    uuid: 'c74b4854-eb86-4629-8891-ab7e5e4c79e6',
     private_pem: 'MHQCAQEEIFRwVj7ZrqnSNNJeMsz4qAKDIZyBgKH3fUhkdjQzpb+1oAcGBSuBBAAKoUQDQgAEDgftWwbXDSj3IgPYh4p1S/NQSUhVmBjnkejAOxKgxB30UyDIC5uzCOfrqCdilzBWtO0sS7unKggtitftXhEijA=='
 });
 

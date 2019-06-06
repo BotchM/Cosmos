@@ -1,4 +1,4 @@
-# Cosmos
+<h1 align="center">Cosmos</h1>
 
 I am writing a script `install` that will automate this process but not ready yet
 
