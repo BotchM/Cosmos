@@ -2,12 +2,6 @@ const { bluzelle } = require('bluzelle');
 const uuidv4       = require('uuid/v4')();
 
 /*
-45.63.14.97
-1Wf@WQJ?Jy(qPGNq
-ssh -L 5001:localhost:5001 root@45.63.14.97
-ssh -L 5001:45.63.14.97:5001 root@45.63.14.97 -N -v -v
-ssh -f root@45.63.14.97 -L 5001:[::1]:5001 -N
-
 #proxy
 ssh -L [localport]:[remotehost]:[remoteport] [username]@[server]
 ssh -L 5001:45
