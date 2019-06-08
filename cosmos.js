@@ -40,7 +40,7 @@ var cosmos = {
     for(let key of keys = await blue.getKeys()){
       if(key !== ipv4){ 
         value = await blue.read(key)
-        await cosmos.swarmConnect(value)
+        await cosmos.swarmConnect(value, key)
       }
     }
   },
@@ -108,11 +108,14 @@ var cosmos = {
       await ipfs.pin.rm(hash)
     }
   },
-  swarmConnect: async(addr) => {
+  swarmConnect: async(addr, key) => {
     try {
       await ipfs.swarm.connect(addr).then(obj => console.log(obj.Strings))
     } catch (e) {
-      console.log(e.message)
+      if (e.statusCode === 500){
+        blue.deleteField(key)
+        console.log(`${key} deleted`)
+      }
     }
   }
 }

@@ -20,7 +20,7 @@ I am writing a script `install` that will automate this process but not ready ye
 ##### IPFS and Golang
 ```
 sudo apt-get update
-sudo apt-get install golang-go -y
+sudo apt-get install golang-go -y // for later on
 wget https://dist.ipfs.io/go-ipfs/v0.4.21/go-ipfs_v0.4.21_linux-386.tar.gz
 tar xvfz go-ipfs_v0.4.10_linux-386.tar.gz
 sudo mv go-ipfs/ipfs /usr/local/bin/ipfs
@@ -51,4 +51,10 @@ yarn install
 npn start
 or
 yarn start
+```
+```
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt-get update && sudo apt-get install yarn
 ```
