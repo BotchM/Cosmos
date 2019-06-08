@@ -2,6 +2,7 @@ var ipfsClient = require('ipfs-http-client')
 var ipfs = ipfsClient();
 var fs = require('fs');
 const blue = require('./blue');
+const Poller = require('./poller');
 const ip = require('public-ip');
 
 /**
@@ -24,9 +25,9 @@ const ip = require('public-ip');
  * func swarmConnect:
  */
 
-
 var cosmos = {
   initialize: async () => {
+    let poller = new Poller(1000); 
     id = await ipfs.id()
     ipv4 = await ip.v4()
     console.log(ipv4)
@@ -43,6 +44,27 @@ var cosmos = {
         await cosmos.swarmConnect(value, key)
       }
     }
+
+    let k = (await blue.getKeys()).length
+
+    /**
+     * Delegate one node randomly to restart
+     */
+    poller.onPoll(async () => {
+      let keys = (await blue.getKeys()).length
+
+      // check all nodes connect if not delete the one that isnt connecting
+      if(keys > k){
+        k = keys;
+        console.log('New node joined!')
+      }else{
+        console.log('Total nodes: ', keys)
+        // check all connections and delete diconnected nodes
+      }
+      poller.poll(); 
+    });
+
+    poller.poll();
   },
   pinit: async (hash) => {
     if(hash){

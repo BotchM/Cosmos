@@ -67,6 +67,7 @@ var blue = {
           keys: await api.keys(),
       };
       console.log(JSON.stringify(stats, null, 4));
+      return stats.pk;
   },
   getKeys: async() => {
     //console.log(await api.keys())

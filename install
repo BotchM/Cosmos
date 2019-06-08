@@ -34,7 +34,7 @@ elif [ "$x" == "LINUX" ]; then
     echo ">>> Starting installation on Linux device compatible with $x"
 
     # Download and install IPFS
-    ipfs_arch=${2-"linux-386"}
+    ipfs_arch=${2-"linux-amd64"}
     ipfs_version=$(curl -s https://dist.ipfs.io/go-ipfs/versions | tail -1)
     ipfs_version=${1-$ipfs_version}
     ipfs_version="v${ipfs_version#v}"
@@ -98,5 +98,19 @@ elif [ "$x" == "LINUX" ]; then
 
     rm $tar_gz_destination
 
+    #Install node
+    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+    apt-get install -y nodejs
+
+    #Install yarn
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+    apt-get update && sudo apt-get install yarn
+
     echo ">>> All done."
 fi
+
+
+## ssh root@45.63.14.97
+## 1Wf@WQJ?Jy(qPGNq
