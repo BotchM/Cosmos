@@ -67,7 +67,7 @@ elif [ "$x" == "LINUX" ]; then
     ipfs_group=$(id -gn)
 
     if [ $init_system == "systemd" ]; then
-      cat ./templates/ipfs-daemon.service.tpl | \
+      cat ./lib/ipfs-daemon.service.tpl | \
       sed "s|{{ipfs_path}}|${ipfs_path}|g" | \
       sed "s|{{ipfs_user}}|${ipfs_user}|g" | \
       sed "s|{{ipfs_group}}|${ipfs_group}|g" | \
