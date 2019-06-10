@@ -34,7 +34,7 @@ elif [ "$x" == "LINUX" ]; then
     echo ">>> Starting installation on Linux device compatible with $x"
 
     # Download and install IPFS
-    ipfs_arch=${2-"linux-386"}
+    ipfs_arch=${2-"linux-amd64"}
     ipfs_version=$(curl -s https://dist.ipfs.io/go-ipfs/versions | tail -1)
     ipfs_version=${1-$ipfs_version}
     ipfs_version="v${ipfs_version#v}"
