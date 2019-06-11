@@ -52,14 +52,13 @@ var cosmos = {
      */
     poller.onPoll(async () => {
       let keys = await blue.getKeys()
+      console.log('Total nodes: ', keys.length)
 
       // check all nodes connect if not delete the one that isnt connecting
       if(keys.length > k){
         k = keys.length;
         console.log('New node joined!')
-        console.log('Total nodes: ', keys.length)
       }else if (keys.length < k){
-        console.log('Total nodes: ', keys.length)
         k = keys.length
         // check all connections and delete diconnected nodes
         for(let key of keys = await blue.getKeys()){
