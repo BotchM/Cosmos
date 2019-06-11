@@ -43,7 +43,7 @@ elif [ "$x" == "LINUX" ]; then
 
     tar_gz_destination=/tmp/go-ipfs_${ipfs_version}_${ipfs_arch}.tar.gz
     wget "https://dist.ipfs.io/go-ipfs/${ipfs_version}/go-ipfs_${ipfs_version}_${ipfs_arch}.tar.gz" \
-    #-q --show-progress \
+    -q --show-progress \
     -O $tar_gz_destination
 
     if [ ! -f $tar_gz_destination ]; then

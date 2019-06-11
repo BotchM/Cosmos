@@ -3,5 +3,5 @@ node_js:
   - "12"
 cache:
   yarn: true
-before_script:
-    - "./install"
+# before_script:
+#     - "./install"
