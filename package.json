@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon app.js",
-    "test": "nodemon app.js"
+    "test": "node app.js"
   },
   "dependencies": {
     "bluzelle": "^0.5.522",

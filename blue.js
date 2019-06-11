@@ -43,6 +43,7 @@ var blue = {
           //value = await db.get(key);
           value = 'haha';
           await api.update(key, value);
+          api.close();
           return value;
       }
   },
@@ -50,6 +51,7 @@ var blue = {
       try {
           await api.create(key, value);
           await api.update(key, value);
+          api.close();
       } catch (e) {
         console.log(e.message)
         if(e.message === 'RECORD_EXISTS'){
@@ -81,6 +83,9 @@ var blue = {
   },
   deleteField: async(key) => {
     await api.delete(key);
+  },
+  closeConn: async() => {
+    api.close();
   }
 }
 

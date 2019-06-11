@@ -42,6 +42,8 @@ var cosmos = {
         await cosmos.swarmConnect(value, key)
       }
     }
+
+    await blue.closeConn();
   },
   pinit: async (hash) => {
     if(hash){
@@ -112,7 +114,7 @@ var cosmos = {
       await ipfs.swarm.connect(addr).then(obj => console.log(key, obj.Strings))
     } catch (e) {
       if (e.statusCode === 500 && (await blue.getKeys()).length > 2) {
-        blue.deleteField(key)
+        await blue.deleteField(key)
         console.log(`${key} deleted`)
       }
       console.log(e.statusCode)
