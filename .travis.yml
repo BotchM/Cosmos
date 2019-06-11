@@ -5,3 +5,6 @@ cache:
   yarn: true
 before_script:
     - "./install"
+branches:
+  only:
+  - travis
