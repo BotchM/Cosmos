@@ -52,7 +52,7 @@ var cosmos = {
       // check all nodes connect if not delete the one that isnt connecting
       if(keys > k){
         k = keys;
-        console.log('New node: ', (await blue.getKeys())[keys - 1])
+        console.log('New node joined!')
       }else{
         console.log('Total nodes: ', keys)
         // check all connections and delete diconnected nodes
