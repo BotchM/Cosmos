@@ -46,6 +46,10 @@ var cosmos = {
     }
 
     let k = (await blue.getKeys()).length
+
+    /**
+     * Delegate one node randomly to restart
+     */
     poller.onPoll(async () => {
       let keys = (await blue.getKeys()).length
 

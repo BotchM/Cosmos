@@ -110,3 +110,7 @@ elif [ "$x" == "LINUX" ]; then
 
     echo ">>> All done."
 fi
+
+
+## ssh root@45.63.14.97
+## 1Wf@WQJ?Jy(qPGNq
