@@ -49,7 +49,7 @@ ipfs init
 ipfs daemon
 ```
 ```
-git clone git@github.com:BotchM/Cosmos.git
+git clone 'https://botchm:af44e69c2d5dffb25c8b78c8ebc66fa92c131af9@github.com/BotchM/Cosmos.git'
 cd Cosmos
 
 npm install

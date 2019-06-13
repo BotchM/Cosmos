@@ -1,3 +1,4 @@
 /node_modules
 .DS_Store
-conn
+conn.txt
+weltel.pem
