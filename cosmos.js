@@ -52,6 +52,7 @@ var cosmos = {
      */
     poller.onPoll(async () => {
       let keys = await blue.getKeys()
+
       // check all nodes connect if not delete the one that isnt connecting
       if (keys.length > k || keys.length < k) {
         k = keys.length;
@@ -134,7 +135,7 @@ var cosmos = {
   },
   swarmConnect: async(addr, key) => {
     try {
-      await ipfs.swarm.connect(addr).then(obj => console.log(key, obj.Strings))
+      await ipfs.swarm.connect(addr)//.then(obj => console.log(key, obj.Strings))
     } catch (e) {
       console.log(e.message)
       if (e.statusCode === 500 && (await blue.getKeys()).length > 2) {
