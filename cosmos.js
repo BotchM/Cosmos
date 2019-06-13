@@ -51,15 +51,17 @@ var cosmos = {
      * Delegate one node randomly to restart
      */
     poller.onPoll(async () => {
-      let keys = (await blue.getKeys()).length
-
+      let keys = await blue.getKeys()
       // check all nodes connect if not delete the one that isnt connecting
-      if(keys > k){
-        k = keys;
+      if (keys.length > k || keys.length < k) {
+        k = keys.length;
         console.log('New node joined!')
-      }else{
-        console.log('Total nodes: ', keys)
-        // check all connections and delete diconnected nodes
+        for (let key of keys = await blue.getKeys()) {
+          if (key !== ipv4) {
+            value = await blue.read(key)
+            await cosmos.swarmConnect(value, key)
+          }
+        }
       }
       poller.poll(); 
     });
@@ -134,11 +136,11 @@ var cosmos = {
     try {
       await ipfs.swarm.connect(addr).then(obj => console.log(key, obj.Strings))
     } catch (e) {
+      console.log(e.message)
       if (e.statusCode === 500 && (await blue.getKeys()).length > 2) {
         blue.deleteField(key)
         console.log(`${key} deleted`)
       }
-      console.log(e.statusCode)
     }
   }
 }

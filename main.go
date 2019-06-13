@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"strings"
-    	"os"
-
-    	shell "github.com/ipfs/go-ipfs-api"
+    "os"
+	"net"
+	"net/http"
+    shell "github.com/ipfs/go-ipfs-api"
 )
 
 func main() {
@@ -19,4 +20,6 @@ func main() {
 	}
   fmt.Printf("added %s", cid)
   fmt.Printf(" added %s", path)
+  ip := net.ParseIP(strings.Split(r.Header.Get("X-Forwarded-For"), ",")[0]).String()
+  fmt.Printf(" added %s", ip)
 }

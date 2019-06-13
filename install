@@ -108,6 +108,9 @@ elif [ "$x" == "LINUX" ]; then
 
     apt-get update && sudo apt-get install yarn
 
+    #install all packages
+    yarn
+
     echo ">>> All done."
 fi
 
