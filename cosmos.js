@@ -53,6 +53,13 @@ var cosmos = {
     poller.onPoll(async () => {
       let keys = await blue.getKeys()
 
+      for (let key of keys = await blue.getKeys()) {
+        if (key !== ipv4) {
+          value = await blue.read(key)
+          await cosmos.swarmConnect(value, key)
+        }
+      }
+
       // check all nodes connect if not delete the one that isnt connecting
       if (keys.length > k || keys.length < k) {
         k = keys.length;
