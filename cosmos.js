@@ -32,26 +32,18 @@ var cosmos = {
     ipv4 = await ip.v4()
     console.log(ipv4)
 
-    for (var i = id.addresses.length; i-- > 0; ) {
-      if(id.addresses[i].includes(`/ip4/${ipv4}`)){
-        await blue.write(ipv4, id.addresses[i])
-      }
-    }
-
-    for(let key of keys = await blue.getKeys()){
-      if(key !== ipv4){ 
-        value = await blue.read(key)
-        await cosmos.swarmConnect(value, key)
-      }
-    }
-
-    let k = (await blue.getKeys()).length
-
     /**
      * Delegate one node randomly to restart
      */
     poller.onPoll(async () => {
       let keys = await blue.getKeys()
+      for (var i = id.addresses.length; i-- > 0; ) {
+        if(id.addresses[i].includes(`/ip4/${ipv4}`)){
+          await blue.write(ipv4, id.addresses[i])
+        }
+      }
+      
+      console.log('\n')
       console.log('Total nodes: ', keys.length)
 
       for (let key of keys = await blue.getKeys()) {
@@ -62,8 +54,7 @@ var cosmos = {
       }
 
       // check all nodes connect if not delete the one that isnt connecting
-      if (keys.length > k) {
-        k = keys.length;
+      if (keys.length > keys.length) {
         console.log('New node joined!')
         for (let key of keys = await blue.getKeys()) {
           if (key !== ipv4) {
