@@ -36,13 +36,14 @@ var cosmos = {
      * Delegate one node randomly to restart
      */
     poller.onPoll(async () => {
-      let keys = await blue.getKeys()
       for (var i = id.addresses.length; i-- > 0; ) {
         if(id.addresses[i].includes(`/ip4/${ipv4}`)){
+          console.log()
           await blue.write(ipv4, id.addresses[i])
         }
       }
       
+      let keys = await blue.getKeys()
       console.log('\n')
       console.log('Total nodes: ', keys.length)
 
