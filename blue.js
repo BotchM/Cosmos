@@ -21,11 +21,9 @@ ssh -L 5001:45
  * func get Writers: gets all the writer authorized to access the current db
  */
 
-const api = bluzelle({
-    entry: 'ws://testnet.bluzelle.com:51010',
-    uuid: '0471e9a0-0be0-4ffa-b03e-f6cd59ce94d8',
-    //uuid: uuidv4,
-    private_pem: 'MHQCAQEEIFRwVj7ZrqnSNNJeMsz4qAKDIZyBgKH3fUhkdjQzpb+1oAcGBSuBBAAKoUQDQgAEDgftWwbXDSj3IgPYh4p1S/NQSUhVmBjnkejAOxKgxB30UyDIC5uzCOfrqCdilzBWtO0sS7unKggtitftXhEijA=='
+let api = bluzelle({
+  public_pem: 'MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEttYOH1hmMYCnTXxiTlFILAKtfconlKlKcwTBzeV+f4IOKYYuzXMzAs5Q+W1phLsiK6d1q157goTU0K2zkahN1Q==',
+  private_pem:'MHQCAQEEIH7CoK+E7Q6JOSE2vdn/yDLALpu8gm3JnG1SqViiovzzoAcGBSuBBAAKoUQDQgAEttYOH1hmMYCnTXxiTlFILAKtfconlKlKcwTBzeV+f4IOKYYuzXMzAs5Q+W1phLsiK6d1q157goTU0K2zkahN1Q=='
 });
 
 var blue = {
