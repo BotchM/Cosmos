@@ -32,7 +32,7 @@ var cosmos = {
     ipv4 = await ip.v4()
     console.log(ipv4)
 
-    // console.log(await blue.initialize());
+    console.log(await blue.initialize());
 
     /**
      * Delegate one node randomly to restart

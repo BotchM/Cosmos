@@ -21,15 +21,16 @@ ssh -L 5001:45
  * func get Writers: gets all the writer authorized to access the current db
  */
 
-let api = bluzelle({
-  public_pem: 'MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEpqlP91u1UPDq1NdmcMdW48F84ykNp06GhYEc3OEBqLyC5ZGqHtEHRxt85J73/awbhXdQPhb1NXKpiK8KXylEQw==',
-  private_pem:'MHQCAQEEIGtXaNRi5VlflkP0VQIYtS94ltjs+8I8VNixRSZ3RmTFoAcGBSuBBAAKoUQDQgAEpqlP91u1UPDq1NdmcMdW48F84ykNp06GhYEc3OEBqLyC5ZGqHtEHRxt85J73/awbhXdQPhb1NXKpiK8KXylEQw=='
-});
+let api;
 
 var blue = {
   initialize: async() => {
-    if (await api.hasDB() == false) {
-      await api.createDB();
+  api = await bluzelle({
+     public_pem: 'MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEc51IQfgk2MfA+T6KGYm4oqPuU9bZcBhxWtdCBBWHpxAnh7ihwsYV3U0ccPej1tgTHovM2BNtsq0U5CjUE6ML5w==',
+     private_pem:'MHQCAQEEIF4LNGwnUi27wZazzvBa0AzfAbaRavD2fFrGgeJ5Z/VboAcGBSuBBAAKoUQDQgAEc51IQfgk2MfA+T6KGYm4oqPuU9bZcBhxWtdCBBWHpxAnh7ihwsYV3U0ccPej1tgTHovM2BNtsq0U5CjUE6ML5w=='
+    });
+    if (await api._hasDB() == false) {
+      await api._createDB();
       console.log('blue initialized!')
       return uuidv4
     }
