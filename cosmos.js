@@ -2,6 +2,7 @@ var ipfsClient = require('ipfs-http-client')
 var ipfs = ipfsClient();
 var fs = require('fs');
 const blue = require('./blue');
+const Poller = require('./poller');
 const ip = require('public-ip');
 
 /**
@@ -26,24 +27,49 @@ const ip = require('public-ip');
 
 var cosmos = {
   initialize: async () => {
+    let poller = new Poller(1000); 
     id = await ipfs.id()
     ipv4 = await ip.v4()
     console.log(ipv4)
 
-    for (var i = id.addresses.length; i-- > 0; ) {
-      if(id.addresses[i].includes(`/ip4/${ipv4}`)){
-        await blue.write(ipv4, id.addresses[i])
-      }
-    }
+    console.log(await blue.initialize());
 
-    for(let key of keys = await blue.getKeys()){
-      if(key !== ipv4){ 
-        value = await blue.read(key)
-        await cosmos.swarmConnect(value, key)
+    /**
+     * Delegate one node randomly to restart
+     */
+    poller.onPoll(async () => {
+      for (var i = id.addresses.length; i-- > 0; ) {
+        if(id.addresses[i].includes(`/ip4/${ipv4}`)){
+          console.log()
+          await blue.write(ipv4, id.addresses[i])
+        }
       }
-    }
+      
+      let keys = await blue.getKeys()
+      console.log('\n')
+      console.log('Total nodes: ', keys.length)
 
-    await blue.closeConn();
+      for (let key of keys = await blue.getKeys()) {
+        if (key !== ipv4) {
+          value = await blue.read(key)
+          await cosmos.swarmConnect(value, key)
+        }
+      }
+
+      // check all nodes connect if not delete the one that isnt connecting
+      if (keys.length > keys.length) {
+        console.log('New node joined!')
+        for (let key of keys = await blue.getKeys()) {
+          if (key !== ipv4) {
+            value = await blue.read(key)
+            await cosmos.swarmConnect(value, key)
+          }
+        }
+      }
+      poller.poll(); 
+    });
+
+    poller.poll();
   },
   pinit: async (hash) => {
     if(hash){
@@ -113,11 +139,11 @@ var cosmos = {
     try {
       await ipfs.swarm.connect(addr).then(obj => console.log(key, obj.Strings))
     } catch (e) {
+      console.log(e.message)
       if (e.statusCode === 500 && (await blue.getKeys()).length > 2) {
-        await blue.deleteField(key)
+        blue.deleteField(key)
         console.log(`${key} deleted`)
       }
-      console.log(e.statusCode)
     }
   }
 }

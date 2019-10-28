@@ -21,16 +21,16 @@ ssh -L 5001:45
  * func get Writers: gets all the writer authorized to access the current db
  */
 
-const api = bluzelle({
-    entry: 'ws://testnet.bluzelle.com:51010',
-    uuid: 'c74b4854-eb86-4629-8891-ab7e5e4c79e6',
-    private_pem: 'MHQCAQEEIFRwVj7ZrqnSNNJeMsz4qAKDIZyBgKH3fUhkdjQzpb+1oAcGBSuBBAAKoUQDQgAEDgftWwbXDSj3IgPYh4p1S/NQSUhVmBjnkejAOxKgxB30UyDIC5uzCOfrqCdilzBWtO0sS7unKggtitftXhEijA=='
-});
+let api;
 
 var blue = {
   initialize: async() => {
-    if (await api.hasDB() == false) {
-      await api.createDB();
+  api = await bluzelle({
+     public_pem: 'MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEc51IQfgk2MfA+T6KGYm4oqPuU9bZcBhxWtdCBBWHpxAnh7ihwsYV3U0ccPej1tgTHovM2BNtsq0U5CjUE6ML5w==',
+     private_pem:'MHQCAQEEIF4LNGwnUi27wZazzvBa0AzfAbaRavD2fFrGgeJ5Z/VboAcGBSuBBAAKoUQDQgAEc51IQfgk2MfA+T6KGYm4oqPuU9bZcBhxWtdCBBWHpxAnh7ihwsYV3U0ccPej1tgTHovM2BNtsq0U5CjUE6ML5w=='
+    });
+    if (await api._hasDB() == false) {
+      await api._createDB();
       console.log('blue initialized!')
       return uuidv4
     }
@@ -43,7 +43,6 @@ var blue = {
           //value = await db.get(key);
           value = 'haha';
           await api.update(key, value);
-          api.close();
           return value;
       }
   },
@@ -51,7 +50,6 @@ var blue = {
       try {
           await api.create(key, value);
           await api.update(key, value);
-          api.close();
       } catch (e) {
         console.log(e.message)
         if(e.message === 'RECORD_EXISTS'){
@@ -83,9 +81,6 @@ var blue = {
   },
   deleteField: async(key) => {
     await api.delete(key);
-  },
-  closeConn: async() => {
-    api.close();
   }
 }
 
