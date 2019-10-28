@@ -1,12 +1,14 @@
 <h1 align="center">Cosmos</h1>
 
-I am writing a script `install` that will automate this process but not ready yet
-
 ## Requirements
 * Go
 * Node 12
   
 ## Installation
+
+
+## All
+* Run `install.sh` on mac or linux and skip to Setup step 
 
 ### Windows
 * https://nodejs.org/en/download/
