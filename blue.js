@@ -26,8 +26,8 @@ let api;
 var blue = {
   initialize: async() => {
   api = await bluzelle({
-     public_pem: 'MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEc51IQfgk2MfA+T6KGYm4oqPuU9bZcBhxWtdCBBWHpxAnh7ihwsYV3U0ccPej1tgTHovM2BNtsq0U5CjUE6ML5w==',
-     private_pem:'MHQCAQEEIF4LNGwnUi27wZazzvBa0AzfAbaRavD2fFrGgeJ5Z/VboAcGBSuBBAAKoUQDQgAEc51IQfgk2MfA+T6KGYm4oqPuU9bZcBhxWtdCBBWHpxAnh7ihwsYV3U0ccPej1tgTHovM2BNtsq0U5CjUE6ML5w=='
+     public_pem: 'MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEyQOSN0Z0IH8k0tn8PtKOrx/K9eoh2RJrMkClobJu9ivOdm6OhHbhir2AwbPkQtER+p4cveCScmhYqAmBrM25hw==',
+     private_pem:'MHQCAQEEIEBKtmRHora9lkVXpmmA//z5koHnUx6D1FDIxgB1BaGVoAcGBSuBBAAKoUQDQgAEyQOSN0Z0IH8k0tn8PtKOrx/K9eoh2RJrMkClobJu9ivOdm6OhHbhir2AwbPkQtER+p4cveCScmhYqAmBrM25hw=='
     });
     if (await api._hasDB() == false) {
       await api._createDB();
